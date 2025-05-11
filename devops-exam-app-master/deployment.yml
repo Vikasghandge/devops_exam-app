@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exam-app
+  labels:
+    app: exam
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: exam
+  template:
+    metadata:
+      labels:
+        app: exam
+    spec:
+      containers:
+      - name: exam-container
+        image: ghandgevikas/devopsexamapp:latest  # Replace with your Docker image
+        ports:
+        - containerPort: 5000  # Replace with the port your app runs on

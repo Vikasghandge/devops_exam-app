@@ -1,0 +1,36 @@
+							🚀 Challenge: Deploy the Same App on AWS EKS Cluster! 🚀
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+I have now demonstrated how to deploy the app using Docker Compose. 
+Now, I challenge you to deploy the same app on Amazon EKS (Elastic Kubernetes Service)!
+
+📌 Task:
+Prepare a detailed deployment guide (with all necessary commands) for deploying the "DevOps Exam App" on EKS.
+
+🎯 Requirements:
+✅ Document must include:
+EKS cluster setup (CLI commands)
+Kubernetes manifest files (Deployment, Service, Ingress, etc.)
+Best practices (Auto-scaling, Security, Monitoring, Load Balancing)
+Screenshots of successful deployment
+
+✅ Bonus Points:
+Use Helm Charts for deployment
+Configure Auto-scaling (HPA)
+Enable Monitoring (Prometheus + Grafana)
+
+🏆 Reward:
+Post your EKS deployment on LinkedIn and tag me in your post. Tag me in your LinkedIn post with #DevOpsExamAppByKASTRO
+The first 5 participants to complete the challenge and post on LinkedIn will be:
+🔹 Featured in my next YouTube video
+🔹 Your image and LinkedIn profile will be included
+🔹 Get a shout-out for your skills and efforts!
+
+⚡ Selection Criteria:
+First come, first serve (based on LinkedIn post timing). 
+Quality of documentation (clear, structured, best practices).
+Innovative features (Helm, CI/CD, Monitoring, etc.).
+
+⏳ Hurry! Only the first 5 will be featured!
+
+Note: Don't forget to tag me in your post and mention the hashtag as #DevOpsExamAppByKASTRO. I will contact you on LinkedIn once I see your post
+
