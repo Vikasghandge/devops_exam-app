@@ -18,4 +18,4 @@ spec:
       - name: myntra
         image: ghandgevikas/devopsexamapp:latest
         ports:
-        - containerPort: 3000   # Use port 3000
+        - containerPort: 5000  # Use port 3000
