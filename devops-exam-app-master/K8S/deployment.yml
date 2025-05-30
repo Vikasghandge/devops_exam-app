@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: devops-app
-  labels: 
+  labels:
     app: devops-app
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: devops-app
@@ -15,7 +15,18 @@ spec:
         app: devops-app
     spec:
       containers:
-      - name: myntra
-        image: ghandgevikas/devopsexamapp:latest
-        ports:
-        - containerPort: 5000  # Use port 3000
+        - name: flask-container
+          image: ghandgevikas/devopsexamapp:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_APP
+              value: "app.py"
+            - name: MYSQL_HOST
+              value: "mysql"
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_PASSWORD
+              value: "rootpass"
+            - name: MYSQL_DATABASE
+              value: "devops_exam"
