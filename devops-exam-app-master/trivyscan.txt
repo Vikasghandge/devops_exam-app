@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Image') {
+            steps {
+                script {
+                    sh 'docker build -t my-image:latest .'
+                }
+            }
+        }
+
+        stage('Scan with Trivy') {
+            steps {
+                script {
+                    def result = sh(script: 'trivy image --exit-code 1 --severity HIGH,CRITICAL my-image:latest', returnStatus: true)
+                    if (result != 0) {
+                        error("❌ Trivy scan failed due to vulnerabilities.")
+                    } else {
+                        echo "✅ Trivy scan passed with no critical/high vulnerabilities."
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo '🚀 Deploying app...'
+                // Add your deployment steps here
+            }
+        }
+    }
+}
