@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    environment {
+        SONAR_HOST_URL = 'http://<your-sonarqube-server>:9000'
+        SONAR_TOKEN = credentials('sonarqube-token')  // Jenkins secret credential
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/your/repo.git'
+            }
+        }
+
+        stage('SonarQube Scan') {
+            steps {
+                withSonarQubeEnv('My SonarQube Server') {
+                    sh "sonar-scanner -Dsonar.projectKey=my-project -Dsonar.sources=. -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN"
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo '🚀 Deploying since quality gate passed.'
+            }
+        }
+    }
+}
