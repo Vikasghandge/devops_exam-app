@@ -337,10 +337,22 @@
         <div class="shape shape-3"></div>
     </div>
      <div class="container">
-        <!-- 👤 Circular Profile Image -->
-        <div class="profile-circle">
-            <img src="{{ url_for('static', filename='your-image.jpg') }}" alt="Your Profile Picture">
-        </div>
+    <!-- 👤 Circular Profile Image -->
+    <div class="profile-circle">
+        <img src="vikasdevopsexampapp.jpg" alt="Your Profile Picture">
+    </div>
+</div>
+
+<style>
+.profile-circle img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%; /* makes it circular */
+    border: 3px solid #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+</style>
 
     <div class="container">
         <div class="header">
