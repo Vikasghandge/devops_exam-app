@@ -1,6 +1,9 @@
 version: '3.8'
 
 services:
+  # ------------------------------
+  # Backend Service (Flask)
+  # ------------------------------
   flask:
     build: ./backend
     container_name: flask_app
@@ -19,7 +22,12 @@ services:
     volumes:
       - ./backend:/app
       - ./frontend:/app/templates
+    networks:
+      - devops_network
 
+  # ------------------------------
+  # Database Service (MySQL)
+  # ------------------------------
   mysql:
     image: mysql:5.7
     container_name: mysql_db
@@ -36,7 +44,30 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
+    networks:
+      - devops_network
 
+  # ------------------------------
+  # Nginx Reverse Proxy
+  # ------------------------------
+  nginx:
+    build: ./nginx
+    container_name: nginx_proxy
+    ports:
+      - "8080:80"
+    depends_on:
+      - flask
+    networks:
+      - devops_network
+
+# ------------------------------
+# Volumes and Networks
+# ------------------------------
 volumes:
   mysql_data:
     driver: local
+
+networks:
+  devops_network:
+    driver: bridge
+
