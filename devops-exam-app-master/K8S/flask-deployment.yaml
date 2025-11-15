@@ -15,6 +15,7 @@ spec:
       containers:
       - name: flask
         image: ghandgevikas/devops-exam-flask:latest
+        imagePullPolicy: Always   # <-- Important line
         env:
         - name: MYSQL_HOST
           value: mysql
