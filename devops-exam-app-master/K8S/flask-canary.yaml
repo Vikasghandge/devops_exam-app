@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: flask-canary
 spec:
-  replicas: 1   # Only 1 canary pod
+  replicas: 1   # Canary gets only 1 pod
   selector:
     matchLabels:
       app: flask
@@ -16,6 +16,16 @@ spec:
     spec:
       containers:
       - name: flask
-        image: ghandgevikas/devops-exam-flask:v2   # <-- NEW VERSION
+        image: ghandgevikas/devops-exam-flask:v2   # Canary version
+        imagePullPolicy: Always
+        env:
+        - name: MYSQL_HOST
+          value: mysql
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PASSWORD
+          value: rootpass
+        - name: MYSQL_DATABASE
+          value: devops_exam
         ports:
         - containerPort: 5000
