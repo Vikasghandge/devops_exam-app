@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-canary
+spec:
+  replicas: 1   # Only 1 canary pod
+  selector:
+    matchLabels:
+      app: flask
+      version: canary
+  template:
+    metadata:
+      labels:
+        app: flask
+        version: canary
+    spec:
+      containers:
+      - name: flask
+        image: ghandgevikas/devops-exam-flask:v2   # <-- NEW VERSION
+        ports:
+        - containerPort: 5000
