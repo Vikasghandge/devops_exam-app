@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: ghandgevikas/devops-exam-flask:v2   # Canary version
+        image: ghandgevikas/devops-exam-flask:latest   # Canary version
         imagePullPolicy: Always
         env:
         - name: MYSQL_HOST
