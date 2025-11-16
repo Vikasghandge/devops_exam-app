@@ -1,4 +1,4 @@
-							🚀 Challenge: Deploy the Same App on AWS EKS Cluster! 🚀
+							🚀 Challenge: Deploy the Same App on AWS EKS Cluster! 🚀,
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 I have now demonstrated how to deploy the app using Docker Compose. 
 Now, I challenge you to deploy the same app on Amazon EKS (Elastic Kubernetes Service)!
@@ -33,4 +33,5 @@ Innovative features (Helm, CI/CD, Monitoring, etc.).
 ⏳ Hurry! Only the first 5 will be featured!
 
 Note: Don't forget to tag me in your post and mention the hashtag as #DevOpsExamAppByKASTRO. I will contact you on LinkedIn once I see your post
+
 
