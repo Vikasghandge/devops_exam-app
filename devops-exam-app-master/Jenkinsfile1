@@ -1,0 +1,94 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "ghandgevikas/devops-exam-flask:latest"
+        DOCKER_CREDENTIALS = "dockerhub"
+    }
+
+    stages {
+
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Git Checkout') {
+            steps {
+                git url: 'https://github.com/Vikasghandge/devops_exam-app.git',
+                    branch: 'examapp-k8s-deploy'
+            }
+        }
+
+        /* ⭐ ONLY SONARQUBE STAGE ADDED ⭐ */
+        stage('SonarQube Analysis') {
+            environment {
+                SCANNER = tool 'sonar-scanner'
+            }
+            steps {
+                withSonarQubeEnv('sonar-server') {
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        sh '''
+                        echo "🔍 Running SonarQube Scan..."
+
+                        ${SCANNER}/bin/sonar-scanner \
+                          -Dsonar.projectKey=devops_exam \
+                          -Dsonar.sources=devops-exam-app-master/backend \
+                          -Dsonar.host.url=http://3.111.106.17:9000 \
+                          -Dsonar.token=$SONAR_TOKEN \
+                          -Dsonar.scanner.metadataFilePath=$WORKSPACE/.scannerwork/report-task.txt
+
+                        '''
+                    }
+                }
+            }
+        }
+        /* ⭐ DONE – NOTHING ELSE CHANGED ⭐ */
+
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                echo "📦 Building Flask Docker image..."
+                docker build -t ${DOCKER_IMAGE} devops-exam-app-master/backend
+                '''
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS,
+                  usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh '''
+                    echo "$PASS" | docker login -u "$USER" --password-stdin
+                    '''
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                sh '''
+                echo "🚀 Pushing image to Docker Hub..."
+                docker push ${DOCKER_IMAGE}
+                '''
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh '''
+                echo "🚀 Deploying to Kubernetes Cluster..."
+
+                kubectl apply -f devops-exam-app-master/K8S/mysql-pvc.yaml
+                kubectl apply -f devops-exam-app-master/K8S/mysql-deployment.yaml
+                kubectl apply -f devops-exam-app-master/K8S/flask-deployment.yaml
+                kubectl apply -f devops-exam-app-master/K8S/flask-service.yaml
+                kubectl rollout restart deployment/flask
+
+                echo "✔ Application successfully deployed!"
+                '''
+            }
+        }
+    }
+}
